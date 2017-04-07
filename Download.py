@@ -1,5 +1,5 @@
 # coding=utf-8
-# Download 1.0.1
+# Download 1.0.2
 # Downlod html file module by Aston5128
 
 import requests
