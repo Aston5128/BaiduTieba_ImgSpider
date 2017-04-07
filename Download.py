@@ -1,8 +1,11 @@
-# Download 1.0.1
+# coding=utf-8
+# Download 1.0.2
+# Downlod html file module by Aston5128
 
 import requests
 import random
 import time
+import re
 
 
 # noinspection PyBroadException
@@ -32,13 +35,13 @@ class download:
             "/535.24"
         ]
 
-        print('[正在爬取IP]。。。')
-        # ip_listn = re.findall('r/>(.*?)<b', requests.get('http://haoip.cc/tiqu.htm').text, re.S)
-        # self.ip_list = [re.sub('\n', ' ', ip).strip() for ip in ip_listn]
-        self.ip_list = ['123.233.123.555']
+        print('[Catching IP]。。。')
+        ip_listn = re.findall('r/>(.*?)<b', requests.get('http://haoip.cc/tiqu.htm').text, re.S)
+        self.ip_list = [re.sub('\n', ' ', ip).strip() for ip in ip_listn]
+        # self.ip_list = ['123.233.123.555']
 
     def ChoseUA(self):
-        print('[正在选择User-Agint]。。。')
+        print('[Selecting User-Agint]。。。')
         return {'User-Agint': random.choice(self.user_agint_list)}
 
     def ChoseIP(self):
@@ -46,22 +49,22 @@ class download:
 
     def TryUrl(self, url, time_out, proxy, num_retries):
         if num_retries > 0:
-            print('[正在抓取]。。。6秒后再次抓取：倒数第{0}次'.format(num_retries))
+            print('[Catching]。。。Spider at 6 second：Reciprocal{0}times'.format(num_retries))
             time.sleep(6)
             return self.GetHtml(url, time_out, proxy, num_retries - 1)
         else:
             i_p = self.ChoseIP()
             proxy = {'http': i_p}
-            print('[代理IP无效]。。。正在更换代理IP，新IP：' + i_p)
+            print('[Proxy IP invalid]。。。Changing IP，new IP：' + i_p)
             return self.GetHtml(url, time_out, proxy=proxy)
 
     def GetHtml(self, url, time_out=3, proxy=None, num_retries=6):
         header = self.ChoseUA()
         try:
-            print('[正在抓取]。。。代理：', proxy)
+            print('[Catching]。。。Proxy IP：', proxy)
             return requests.get(url, headers=header, timeout=time_out).text
         except:
-            print('[抓取失败]。。。代理：', proxy)
+            print('[Failed]。。。Proxy IP：', proxy)
             return self.TryUrl(url, time_out, proxy, num_retries)
 
 
